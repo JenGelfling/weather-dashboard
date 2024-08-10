@@ -21,19 +21,19 @@ function updateSearchHistory(city) {
 function renderSearchHistory() {
   historyList.innerHTML = '';
   searchHistory.forEach((city) => {
-      const li = document.createElement('li');
-      li.classList.add('list-group-item');
-      li.textContent = city;
-      li.addEventListener('click', () => fetchWeatherData(city));
-      historyList.appendChild(li);
+      const cityLi = document.createElement('li');
+      cityLi.classList.add('list-group-item');
+      cityLi.textContent = city;
+      cityLi.addEventListener('click', () => handleSearchFormSubmit(null, city));
+      historyList.appendChild(cityLi);
   });
 }
 
 
-async function handleSearchFormSubmit(event) {
-  event.preventDefault();
+async function handleSearchFormSubmit(event, cityName) {
+  if (event) event.preventDefault();
 
-  const cityName = document.querySelector('#city').value;
+  cityName = cityName || document.querySelector('#city').value;
 
   if (!cityName) {
     console.error('You need a search input value!');
@@ -65,10 +65,11 @@ async function handleSearchFormSubmit(event) {
 
     // Process and use the data to create HTML elements
     createWeatherElements(currentWeatherData, weatherData);
-    updateSearchHistory(cityName);
 
   } catch (error) {
     console.error('Error making API calls:', error);
+  } finally {
+    updateSearchHistory(cityName);
   }
 }
 
