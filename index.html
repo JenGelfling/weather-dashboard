@@ -1,3 +1,4 @@
+<!--  -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,71 +18,33 @@
 
   <div class="container-fluid border">
     <div class="row">
-        <aside class="col-md-4 col-sm-12 order-md-1">
-            <div class="card">
-                <h3 class="card-header">Search For a City:</h3>
-                <form id="city-form" class="card-body">
-                  <label class="form-label">
-                  <input name="city" id="city" type="text" autofocus="true" class="form-input" />
-                  </label>
-                  <button type="submit" class="btn">Search</button>
-                </form>
-            </div>
-        </aside>
+      <aside class="col-md-4 col-sm-12 order-md-1">
+        <div class="card">
+            <h3 class="card-header">Search For a City:</h3>
+            <form id="city-form" class="card-body">
+                <label class="form-label">
+                    <input name="city" id="city" type="text" autofocus="true" class="form-input" />
+                </label>
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+            <h3 class="card-header">Search History:</h3>
+            <ul id="historyList" class="list-group">
+                <!-- Search history items will be dynamically added here -->
+            </ul>
+        </div>
+    </aside>
         <main class="col-md-8 col-sm-12 order-md-2 border">
             <div class="card mb-4 border">
                 <div id="main-content">
                 
                 </div>
             </div>
-            <div class="row row-cols-1 row-cols-md-5 g-3">
-                <div class="col">
-                  <div class="card h-100">
-                    <div class="card-body">
-                      <h5 class="card-title">Box 1</h5>
-                      <p class="card-text">Data from API</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col">
-                  <div class="card h-100">
-                    <div class="card-body">
-                      <h5 class="card-title">Box 2</h5>
-                      <p class="card-text">Data from API</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col">
-                  <div class="card h-100">
-                    <div class="card-body">
-                      <h5 class="card-title">Box 3</h5>
-                      <p class="card-text">Data from API</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col">
-                  <div class="card h-100">
-                    <div class="card-body">
-                      <h5 class="card-title">Box 4</h5>
-                      <p class="card-text">Data from API</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col">
-                  <div class="card h-100">
-                    <div class="card-body">
-                      <h5 class="card-title">Box 5</h5>
-                      <p class="card-text">Data from API</p>
-                    </div>
-                  </div>
-                </div>
-            </div>
-            <!-- <div class="card border">
+            <div class="card border">
                 <div id="forecast" class="card-body">
                 
                 </div>
             </div>
-            <div id="repos-container" class="list-group"></div> -->
+            <div id="repos-container" class="list-group"></div> 
             
         </main>
 
