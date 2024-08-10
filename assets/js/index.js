@@ -63,7 +63,7 @@ async function handleSearchFormSubmit(event, cityName) {
     
 
     // Third API Call: Get current weather data
-    const currentWeatherResponse = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&cnt=5&appid=${apiKey}&units=${units}`);
+    const currentWeatherResponse = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}`);
     const currentWeatherData = await currentWeatherResponse.json();
 
     // Process and use the data to create HTML elements
@@ -75,8 +75,6 @@ async function handleSearchFormSubmit(event, cityName) {
     updateSearchHistory(cityName);
   }
 }
-
-
 
 // Function to create and display HTML elements
 function createWeatherElements(currentWeatherData, weatherData) {
@@ -112,21 +110,26 @@ function createWeatherElements(currentWeatherData, weatherData) {
   // Create elements for forecast data
   const forecastDiv = document.createElement('div');
   forecastDiv.classList.add('weather-forecast');
-  forecastDiv.innerHTML = '<h3>5-Day Forecast</h3>';
+  forecastDiv.innerHTML = '<h3>5-Day Forecast:</h3>';
 
+  // Create a row for forecast items
+  const forecastRow = document.createElement('div');
+  forecastRow.classList.add('row');
 
 // Iterate over every 8th item
-for (let i = 7; i < weatherData.list.length; i += 8) {
-  const weatherDataItem = weatherData.list[i];
-  if (!weatherDataItem || !weatherDataItem.main || !weatherDataItem.weather) {
-    console.error('Invalid forecast weatherData data:', weatherDataItem);
-    continue; // Skip this iteration if the data is invalid
-  }
+  for (let i = 7; i < weatherData.list.length; i += 8) {
+    const weatherDataItem = weatherData.list[i];
+    if (!weatherDataItem || !weatherDataItem.main || !weatherDataItem.weather) {
+      console.error('Invalid forecast weatherData data:', weatherDataItem);
+      continue; 
+    }
 
-  console.log(weatherDataItem);
+  const forecastCol = document.createElement('div');
+  forecastCol.classList.add('col-sm-2', 'col');
 
   const forecastItem = document.createElement('div');
-  forecastItem.classList.add('forecast-item');
+  forecastItem.classList.add('forecast-item', 'card', 'text-center', 'p-3');
+
   const forecastDate = new Date(weatherDataItem.dt * 1000).toLocaleDateString();
   const forecastTemp = weatherDataItem.main.temp;
   const forecastDesc = weatherDataItem.weather[0].description;
@@ -135,45 +138,17 @@ for (let i = 7; i < weatherData.list.length; i += 8) {
 
   forecastItem.innerHTML = `
     <h4>${forecastDate}</h4>
+    <img src="http://openweathermap.org/img/wn/${weatherDataItem.weather[0].icon}@2x.png" alt="Weather icon">
     <p>Temp: ${forecastTemp}°F</p>
     <p>Weather: ${forecastDesc}</p>
     <p>Wind: ${forecastWind} mph</p>
     <p>Humidity: ${forecastHumidity}%</p>
   `;
-  forecastDiv.appendChild(forecastItem);
+  // forecastDiv.appendChild(forecastItem);
+  forecastCol.appendChild(forecastItem);
+  forecastRow.appendChild(forecastCol);
+  }
+
+  forecastDiv.appendChild(forecastRow);
+  mainContent.appendChild(forecastDiv);
 }
-
-mainContent.appendChild(forecastDiv);
-}
-
-
-
-//   weatherData.list.forEach(weatherData => {
-//     if (!weatherData || !weatherData.main || !weatherData.weather) {
-//       console.error('Invalid forecast weatherData data:', weatherData);
-//       return;
-//     }
-//     console.log(weatherData);
-
-//     const forecastItem = document.createElement('div');
-//     forecastItem.classList.add('forecast-item');
-//     const forecastDate = new Date(weatherData.dt * 1000).toLocaleDateString();
-//     const forecastTemp = weatherData.main.temp;
-//     const forecastDesc = weatherData.weather[0].description;
-//     const forecastWind = weatherData.wind.speed;
-//     const forecastHumidity = weatherData.main.humidity;
-
-//     forecastItem.innerHTML = `
-//       <h4>${forecastDate}</h4>
-//       <p>Temp: ${forecastTemp}°F</p>
-//       <p>Weather: ${forecastDesc}</p>
-//       <p>Wind: ${forecastWind}mph</p>
-//       <p>Humidity: ${forecastHumidity}%</p>
-//     `;
-//     forecastDiv.appendChild(forecastItem);
-//   });
-
-//   mainContent.appendChild(forecastDiv);
-// }
-
-// renderSearchHistory();
