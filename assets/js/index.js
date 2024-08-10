@@ -82,6 +82,13 @@ function createWeatherElements(currentWeatherData, weatherData) {
   // Clear previous content
   mainContent.innerHTML = '';
 
+  const today = new Date();
+  const formattedDate = today.toLocaleDateString('en-US', {
+    month: '2-digit',
+    day: '2-digit',
+    year: 'numeric'
+  });
+
   // Create elements for current weather
   const currentWeatherDiv = document.createElement('div');
   const weatherIconUrl = `http://openweathermap.org/img/wn/${currentWeatherData.weather[0].icon}@2x.png`;
@@ -90,7 +97,7 @@ function createWeatherElements(currentWeatherData, weatherData) {
 
   currentWeatherDiv.classList.add('current-weather');
   currentWeatherDiv.innerHTML = `
-    <h2>Current Weather in ${currentWeatherData.name} <img src=${weatherIcon.src}></img></h2>
+    <h2>Current Weather in ${currentWeatherData.name} (${formattedDate})<img src=${weatherIcon.src} alt="Weather icon"></img></h2>
     <p>Temp: ${currentWeatherData.main.temp}°F</p>
     <p>Wind: ${currentWeatherData.wind.speed}mph</p>
     <p>Weather: ${currentWeatherData.weather[0].description}</p>
