@@ -19,3 +19,22 @@ header {
     color: white;
 }
 
+#city-form button {
+    width: 100%;
+}
+
+.form-label {
+    width: 100%;
+}
+
+#city {
+    width: 100%;
+}
+
+#historyList li {
+    background-color: lightgrey;
+    margin: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    text-align: center;
+}
