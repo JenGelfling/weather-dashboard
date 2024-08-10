@@ -56,8 +56,11 @@ async function handleSearchFormSubmit(event, cityName) {
     const { lat, lon } = geocodeData[0];
 
     // Second API Call: Use latitude and longitude to get weather forecast data
-    const weatherResponse = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=5&appid=${apiKey}&units=${units}`);
+    const weatherResponse = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}`);
+    console.log(weatherResponse)
     const weatherData = await weatherResponse.json();
+    console.log(weatherData)
+    
 
     // Third API Call: Get current weather data
     const currentWeatherResponse = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&cnt=5&appid=${apiKey}&units=${units}`);
@@ -110,19 +113,67 @@ function createWeatherElements(currentWeatherData, weatherData) {
   const forecastDiv = document.createElement('div');
   forecastDiv.classList.add('weather-forecast');
   forecastDiv.innerHTML = '<h3>5-Day Forecast</h3>';
-  
-  weatherData.list.forEach(day => {
-    const forecastItem = document.createElement('div');
-    forecastItem.classList.add('forecast-item');
-    forecastItem.innerHTML = `
-      <h4>${new Date(day.dt * 1000).toLocaleDateString()}</h4>
-      <p>Temp: ${day.temp.day}°F</p>
-      <p>Weather: ${day.weather[0].description}</p>
-    `;
-    forecastDiv.appendChild(forecastItem);
-  });
 
-  mainContent.appendChild(forecastDiv);
+
+// Iterate over every 8th item
+for (let i = 7; i < weatherData.list.length; i += 8) {
+  const weatherDataItem = weatherData.list[i];
+  if (!weatherDataItem || !weatherDataItem.main || !weatherDataItem.weather) {
+    console.error('Invalid forecast weatherData data:', weatherDataItem);
+    continue; // Skip this iteration if the data is invalid
+  }
+
+  console.log(weatherDataItem);
+
+  const forecastItem = document.createElement('div');
+  forecastItem.classList.add('forecast-item');
+  const forecastDate = new Date(weatherDataItem.dt * 1000).toLocaleDateString();
+  const forecastTemp = weatherDataItem.main.temp;
+  const forecastDesc = weatherDataItem.weather[0].description;
+  const forecastWind = weatherDataItem.wind.speed;
+  const forecastHumidity = weatherDataItem.main.humidity;
+
+  forecastItem.innerHTML = `
+    <h4>${forecastDate}</h4>
+    <p>Temp: ${forecastTemp}°F</p>
+    <p>Weather: ${forecastDesc}</p>
+    <p>Wind: ${forecastWind} mph</p>
+    <p>Humidity: ${forecastHumidity}%</p>
+  `;
+  forecastDiv.appendChild(forecastItem);
 }
+
+mainContent.appendChild(forecastDiv);
+}
+
+
+
+//   weatherData.list.forEach(weatherData => {
+//     if (!weatherData || !weatherData.main || !weatherData.weather) {
+//       console.error('Invalid forecast weatherData data:', weatherData);
+//       return;
+//     }
+//     console.log(weatherData);
+
+//     const forecastItem = document.createElement('div');
+//     forecastItem.classList.add('forecast-item');
+//     const forecastDate = new Date(weatherData.dt * 1000).toLocaleDateString();
+//     const forecastTemp = weatherData.main.temp;
+//     const forecastDesc = weatherData.weather[0].description;
+//     const forecastWind = weatherData.wind.speed;
+//     const forecastHumidity = weatherData.main.humidity;
+
+//     forecastItem.innerHTML = `
+//       <h4>${forecastDate}</h4>
+//       <p>Temp: ${forecastTemp}°F</p>
+//       <p>Weather: ${forecastDesc}</p>
+//       <p>Wind: ${forecastWind}mph</p>
+//       <p>Humidity: ${forecastHumidity}%</p>
+//     `;
+//     forecastDiv.appendChild(forecastItem);
+//   });
+
+//   mainContent.appendChild(forecastDiv);
+// }
 
 // renderSearchHistory();
