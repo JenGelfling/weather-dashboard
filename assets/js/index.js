@@ -6,6 +6,7 @@ const searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.querySelector('#city-form');
   form.addEventListener('submit', handleSearchFormSubmit);
+  renderSearchHistory();
 });
 
 function updateSearchHistory(city) {
@@ -21,6 +22,7 @@ function renderSearchHistory() {
   historyList.innerHTML = '';
   searchHistory.forEach((city) => {
       const li = document.createElement('li');
+      li.classList.add('list-group-item');
       li.textContent = city;
       li.addEventListener('click', () => fetchWeatherData(city));
       historyList.appendChild(li);
@@ -63,7 +65,7 @@ async function handleSearchFormSubmit(event) {
 
     // Process and use the data to create HTML elements
     createWeatherElements(currentWeatherData, weatherData);
-    updateSearchHistory(city);
+    updateSearchHistory(cityName);
 
   } catch (error) {
     console.error('Error making API calls:', error);
@@ -74,20 +76,26 @@ async function handleSearchFormSubmit(event) {
 
 // Function to create and display HTML elements
 function createWeatherElements(currentWeatherData, weatherData) {
-  const mainContent = document.querySelector('#main-content'); // Assuming you have a container with this ID
+  const mainContent = document.querySelector('#main-content');
 
   // Clear previous content
   mainContent.innerHTML = '';
 
   // Create elements for current weather
   const currentWeatherDiv = document.createElement('div');
+  const weatherIconUrl = `http://openweathermap.org/img/wn/${currentWeatherData.weather[0].icon}@2x.png`;
+  const weatherIcon = document.createElement('img');
+  weatherIcon.src = weatherIconUrl;
+
   currentWeatherDiv.classList.add('current-weather');
   currentWeatherDiv.innerHTML = `
-    <h2>Current Weather in ${currentWeatherData.name}</h2>
-    <p>Temperature: ${currentWeatherData.main.temp}°F</p>
+    <h2>Current Weather in ${currentWeatherData.name} <img src=${weatherIcon.src}></img></h2>
+    <p>Temp: ${currentWeatherData.main.temp}°F</p>
+    <p>Wind: ${currentWeatherData.wind.speed}mph</p>
     <p>Weather: ${currentWeatherData.weather[0].description}</p>
     <p>Humidity: ${currentWeatherData.main.humidity}%</p>
   `;
+ 
   mainContent.appendChild(currentWeatherDiv);
 
   // Create elements for forecast data
@@ -100,7 +108,7 @@ function createWeatherElements(currentWeatherData, weatherData) {
     forecastItem.classList.add('forecast-item');
     forecastItem.innerHTML = `
       <h4>${new Date(day.dt * 1000).toLocaleDateString()}</h4>
-      <p>Temperature: ${day.temp.day}°F</p>
+      <p>Temp: ${day.temp.day}°F</p>
       <p>Weather: ${day.weather[0].description}</p>
     `;
     forecastDiv.appendChild(forecastItem);
@@ -109,4 +117,4 @@ function createWeatherElements(currentWeatherData, weatherData) {
   mainContent.appendChild(forecastDiv);
 }
 
-renderSearchHistory();
+// renderSearchHistory();
