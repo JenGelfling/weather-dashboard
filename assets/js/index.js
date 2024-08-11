@@ -116,7 +116,7 @@ function createWeatherElements(currentWeatherData, weatherData) {
   const forecastRow = document.createElement('div');
   forecastRow.classList.add('row');
 
-// Iterate over every 8th item
+  // Iterate over every 8th item
   for (let i = 7; i < weatherData.list.length; i += 8) {
     const weatherDataItem = weatherData.list[i];
     if (!weatherDataItem || !weatherDataItem.main || !weatherDataItem.weather) {
