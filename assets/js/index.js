@@ -45,7 +45,7 @@ async function handleSearchFormSubmit(event, cityName) {
 
   try {
     // First API Call: Get latitude and longitude for the city
-    const geocodeResponse = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${apiKey}`);
+    const geocodeResponse = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${apiKey}`);
     const geocodeData = await geocodeResponse.json();
 
     if (!geocodeData || geocodeData.length === 0) {
@@ -92,7 +92,7 @@ function createWeatherElements(currentWeatherData, weatherData) {
 
   // Create elements for current weather
   const currentWeatherDiv = document.createElement('div');
-  const weatherIconUrl = `http://openweathermap.org/img/wn/${currentWeatherData.weather[0].icon}@2x.png`;
+  const weatherIconUrl = `https://openweathermap.org/img/wn/${currentWeatherData.weather[0].icon}@2x.png`;
   const weatherIcon = document.createElement('img');
   weatherIcon.src = weatherIconUrl;
 
@@ -138,7 +138,7 @@ function createWeatherElements(currentWeatherData, weatherData) {
 
   forecastItem.innerHTML = `
     <h4>${forecastDate}</h4>
-    <img src="http://openweathermap.org/img/wn/${weatherDataItem.weather[0].icon}@2x.png" alt="Weather icon">
+    <img src="https://openweathermap.org/img/wn/${weatherDataItem.weather[0].icon}@2x.png" alt="Weather icon">
     <p>Temp: ${forecastTemp}°F</p>
     <p>Weather: ${forecastDesc}</p>
     <p>Wind: ${forecastWind} mph</p>
