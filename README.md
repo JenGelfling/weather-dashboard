@@ -4,7 +4,7 @@ For this assignment, I created the HTML, CSS, and JS from scratch. I created a s
 
 The following image shows the web application:
 
-![The weather dashboard has a header, a main section that shows the current weather and 5 day forecast, and an aside that allows visitors to search for a city and see previous searches](./assets/images/portfolio-homepage.png)
+![The weather dashboard has a header, a main section that shows the current weather and 5 day forecast, and an aside that allows visitors to search for a city and see previous searches](./assets/weather-dashboard.png)
 
 ## Link to Deployed Version
 [Click here to see the deployed version](https://jengelfling.github.io/weather-dashboard/)
